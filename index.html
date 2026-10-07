@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>예준이대전쟁</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game">
+  <div id="topbar">
+    <div id="stageName">예준이 대전쟁</div>
+    <div class="btns">
+      <button class="tbtn" id="speedBtn">x1</button>
+      <button class="tbtn" id="pauseBtn">⏸ 정지</button>
+    </div>
+  </div>
+  <canvas id="field" width="960" height="400"></canvas>
+  <div id="hud">
+    <div id="moneyBox">
+      <div id="moneyLabel">💰 <span id="moneyVal">0</span>/<span id="moneyMax">500</span> <span class="rate" id="moneyRate"></span></div>
+      <div id="moneyBarWrap"><div id="moneyBar"></div></div>
+      <button id="walletBtn">upgrade</button>
+    </div>
+    <div id="unitRow"></div>
+    <button id="cannonBtn"><span>성관이 빔</span><span class="ckey">C 키</span>
+      <div id="cannonBarWrap"><div id="cannonBar"></div></div></button>
+  </div>
+  <div id="hint">숫자키 1~9: 캐릭터 생성 · Q: 지갑 강화 · C: 빔 · S: 배속 · P: 일시정지</div>
+  <div id="overlay"></div>
+</div>
+<script type="module" src="js/main.js"></script>
+<script>
+window.addEventListener('error', e => {
+  const m = e.message || (e.target && e.target.src ? '로드 실패: ' + e.target.src : '에러');
+  const d = document.createElement('div');
+  d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#1a1a1a;color:#ff8888;padding:20px;font:13px monospace;white-space:pre-wrap;overflow:auto;';
+  d.textContent = m;
+  document.body.appendChild(d);
+}, true);
+</script>
+</body>
+</html>
