@@ -49,7 +49,6 @@ export const CATS = [
     id: 'yeseung',
     img: 'yeseung.png',
     imgAtk: 'yeseung_atk.png',
-    pixel: true,
     icon: '🚝',
     name: '예승이',
     cost: 100,
