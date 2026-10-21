@@ -61,7 +61,7 @@ export const CATS = [
     backswing: 1.2,
     speed: 50,
     kb: 5,
-    size: 1.1,
+    size: 0.45,
     color: '#884f12',
     desc: '리치 긴 병신',
   },
