@@ -65,7 +65,7 @@ export function drawFighter(f) {
 
         if (f.def.pixel) {
             // 픽셀아트 플래그
-            s = Math.max(1, Math.round(s)); // 정수배 스냅 (3.4배 → 3배) : 픽셀 뭉개짐 방지
+            s = Math.max(0.1, s); // 정수배 스냅 (3.4배 → 3배) : 픽셀 뭉개짐 방지
             ctx.imageSmoothingEnabled = false; // 보간 끄기 = 칼같은 픽셀
         }
 
