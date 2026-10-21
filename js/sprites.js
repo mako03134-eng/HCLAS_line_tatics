@@ -14,7 +14,12 @@ export function drawFighter(f) {
     const sy = f.y;
     const key = (f.side === 'player' ? 'cat/' : 'enemy/') + f.def.id;
 
+    let curKey = key;
     let sprite = f.def.img ? getImage(key) : null;
+    if (f.attackT > 0 && f.def.imgAtk && getImage(key + '_atk')) {
+        curKey = key + '_atk';           // 공격 모션이 로드돼 있을 때만 스왑
+        sprite = getImage(curKey);
+        }
 
     if (sprite && f.hitT > 0) {
         sprite = getWhiteImage(key) || sprite; // 피격 → 흰 실루엣

@@ -12,7 +12,9 @@ async function boot() {
   // 1) 명단의 이미지 전부 선로딩 (실패해도 시작 — 임시 드로잉 폴백)
   const jobs = [
     ...CATS.filter(c => c.img).map(c => ({ key: 'cat/' + c.id, src: assetSrc('cats', c.img) })),
+    ...CATS.filter(c => c.imgAtk).map(c => ({ key: 'cat/' + c.id + '_atk', src: assetSrc('cats', c.imgAtk) })),       // 공격 모션
     ...Object.values(ENEMY_TYPES).filter(e => e.img).map(e => ({ key: 'enemy/' + e.id, src: assetSrc('enemies', e.img) })),
+    ...Object.values(ENEMY_TYPES).filter(e => e.imgAtk).map(e => ({ key: 'enemy/' + e.id + '_atk', src: assetSrc('enemies', e.imgAtk) })),
     ...(TOWER.img ? [{ key: 'tower/player', src: assetSrc('towers', TOWER.img) }] : []),
     ...(TOWER.imgFire ? [{ key: 'tower/player_fire', src: assetSrc('towers', TOWER.imgFire) }] : []),
   ];
