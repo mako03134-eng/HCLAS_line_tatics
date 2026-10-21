@@ -1,5 +1,5 @@
 // 플레이어 명령(출격/강화/대포) + 스폰/분노 — 입력·UI는 여기만 호출
-import { W, FIELD_W, PLAYER_BASE_X, ENEMY_BASE_X } from './config.js';
+import { W, FIELD_W, PLAYER_BASE_X, ENEMY_BASE_X, WORLD_SCALE } from './config.js';
 import { game } from './state.js';
 import { CATS, ENEMY_TYPES, CANNON, WALLET } from './data/index.js';
 import { Fighter } from './entities.js';
