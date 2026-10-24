@@ -13,9 +13,12 @@
     <div class="btns">
       <button class="tbtn" id="speedBtn">x1</button>
       <button class="tbtn" id="pauseBtn">⏸ 정지</button>
+      <button class="tbtn" id="fullscreenBtn">⛶ 전체 화면</button>
     </div>
   </div>
-  <canvas id="field" width="960" height="400"></canvas>
+  <div id="fieldWrap">
+    <canvas id="field" width="960" height="400"></canvas>
+  </div>
   <div id="hud">
     <div id="moneyBox">
       <div id="moneyLabel">💰 <span id="moneyVal">0</span>/<span id="moneyMax">500</span> <span class="rate" id="moneyRate"></span></div>
@@ -38,6 +41,27 @@ window.addEventListener('error', e => {
   d.textContent = m;
   document.body.appendChild(d);
 }, true);
+
+const gameElement = document.getElementById('game');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+fullscreenBtn.addEventListener('click', async () => {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await gameElement.requestFullscreen();
+    }
+  } catch (error) {
+    console.error('전체 화면 전환 실패:', error);
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  fullscreenBtn.textContent = document.fullscreenElement
+    ? '⛶ 전체 화면 종료'
+    : '⛶ 전체 화면';
+});
 </script>
 </body>
 </html>
