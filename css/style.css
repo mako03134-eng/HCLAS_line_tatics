@@ -1,57 +1,8 @@
-/* Canvas를 담는 영역 */
-#fieldWrap {
-    width: 100%;
-}
-
-#field {
-    width: 100%;
-    display: block;
-}
-
-/* 전체 화면 모드 */
-#game:fullscreen {
-    width: 100vw;
-    max-width: none;
-    height: 100vh;
-    padding: 12px;
-    background: #191b22;
-
-    display: flex;
-    flex-direction: column;
-}
-
-/* 상단 버튼과 안내 영역은 유지 */
-#game:fullscreen #topbar,
-#game:fullscreen #hud,
-#game:fullscreen #hint {
-    flex-shrink: 0;
-}
-
-/* Canvas가 남은 공간을 활용하도록 설정 */
-#game:fullscreen #fieldWrap {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#game:fullscreen #field {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-/* 전체 화면에서 오버레이도 화면에 맞게 표시 */
-#game:fullscreen #overlay {
-    border-radius: 0;
-}
 
 :root {
     --ui-bg: #171a20;
     --ui-panel: #252a33;
-    --ui-panel-dark: #101319;
+    --ui-dark: #101319;
     --ui-border: #080a0e;
     --ui-line: #414958;
     --ui-text: #e8e4d5;
@@ -62,29 +13,45 @@
     --ui-red: #e66b61;
 }
 
-/* 전체 화면 */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: var(--ui-bg);
+}
+
 body {
+    margin: 0;
+    padding: 18px;
     background: var(--ui-bg);
     color: var(--ui-text);
-    padding: 18px;
     font-family: "Malgun Gothic", monospace, sans-serif;
 }
 
+/* 게임 전체 */
 #game {
-    width: 1100px;
-    max-width: 100%;
+    position: relative;
+    width: min(1200px, 100%);
+    margin: 0 auto;
 }
 
 /* 상단 상태 표시줄 */
 #topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
     min-height: 42px;
     padding: 8px 10px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     background: var(--ui-panel);
     border: 2px solid var(--ui-border);
     border-left: 4px solid var(--ui-yellow);
     border-radius: 0;
-    box-shadow: 3px 3px 0 #080a0e;
+    box-shadow: 3px 3px 0 var(--ui-border);
 }
 
 #stageName {
@@ -95,22 +62,30 @@ body {
 }
 
 #topbar .btns {
-    gap: 5px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
-/* 공통 픽셀풍 버튼 */
+/* 공통 버튼 */
+button {
+    cursor: pointer;
+    font: inherit;
+}
+
 .tbtn,
 #walletBtn,
 #cannonBtn,
 .stageBtn {
     border: 2px solid var(--ui-border);
     border-radius: 0;
-    box-shadow: 2px 2px 0 #080a0e;
+    box-shadow: 2px 2px 0 var(--ui-border);
     transition: background-color 0.1s;
 }
 
 .tbtn {
-    padding: 6px 10px;
+    padding: 7px 10px;
     background: #343c49;
     color: var(--ui-text);
     font-family: monospace;
@@ -125,37 +100,52 @@ body {
 #walletBtn:active,
 #cannonBtn:active {
     transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 #080a0e;
+    box-shadow: 1px 1px 0 var(--ui-border);
 }
 
-/* 전장 프레임 */
-#field {
-    border: 3px solid var(--ui-border);
-    border-radius: 0;
+/* 전장: 기본 화면에서도 너비에 자동 반응 */
+#fieldWrap {
+    width: 100%;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 12 / 5;
     background: #242a32;
-    box-shadow: 3px 3px 0 #080a0e;
+    border: 3px solid var(--ui-border);
+    box-shadow: 3px 3px 0 var(--ui-border);
 }
 
-/* 하단 HUD 전체 */
+#field {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* 하단 HUD */
 #hud {
     display: grid;
     grid-template-columns: 160px minmax(0, 1fr) 112px;
     align-items: stretch;
-    gap: 7px;
+    gap: 8px;
     margin-top: 12px;
     padding: 7px;
-    background: #11151b;
+    background: var(--ui-dark);
     border: 2px solid var(--ui-border);
     border-radius: 0;
-    box-shadow: 3px 3px 0 #080a0e;
+    box-shadow: 3px 3px 0 var(--ui-border);
 }
 
 /* 자원 패널 */
 #moneyBox {
-    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     min-width: 0;
-    padding: 8px;
     gap: 8px;
+    padding: 8px;
     background: var(--ui-panel);
     border: 1px solid var(--ui-line);
     border-radius: 0;
@@ -175,20 +165,35 @@ body {
     font-size: 11px;
 }
 
+/* 자원 게이지 */
 #moneyBarWrap,
 #cannonBarWrap {
+    width: 100%;
     height: 9px;
+    overflow: hidden;
     border: 1px solid var(--ui-border);
     border-radius: 0;
     background: #0c0f14;
 }
 
-#moneyBar {
-    background: var(--ui-yellow);
+#moneyBar,
+#cannonBar {
+    width: 0;
+    height: 100%;
     transition: width 0.12s linear;
 }
 
+#moneyBar {
+    background: var(--ui-yellow);
+}
+
+#cannonBar {
+    background: var(--ui-blue);
+}
+
+/* 지갑 강화 */
 #walletBtn {
+    width: 100%;
     padding: 7px 4px;
     background: #384b39;
     color: #c8f2bd;
@@ -204,80 +209,133 @@ body {
     background: #292e31;
     color: #737c7c;
     box-shadow: none;
+    cursor: not-allowed;
 }
 
-/* 유닛 선택 영역 */
+/* 캐릭터 생성 버튼 목록 */
 #unitRow {
-    min-width: 0;
-    gap: 5px;
-    padding: 2px 2px 5px;
+    display: flex;
     align-items: stretch;
-    scrollbar-color: #596272 #151920;
+    min-width: 0;
+    gap: 8px;
+    padding: 4px 4px 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: thin;
+    scrollbar-color: #596272 #151920;
 }
 
-.unitBtn {
-    flex: 0 0 76px;
-    min-width: 76px;
-    min-height: 96px;
-    padding: 6px 3px;
+/* 모든 캐릭터 버튼 크기 통일 */
+#unitRow .unitBtn {
+    position: relative;
+    flex: 0 0 82px;
+    width: 82px;
+    min-width: 82px;
+    height: 104px;
+    min-height: 104px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     gap: 4px;
-    justify-content: center;
+
+    padding: 6px;
+    margin: 0;
+    overflow: hidden;
+
     background: #303640;
-    border: 2px solid #080a0e;
+    color: var(--ui-text);
+    border: 2px solid var(--ui-border);
     border-radius: 0;
-    box-shadow: 2px 2px 0 #080a0e;
+    box-shadow: 2px 2px 0 var(--ui-border);
     transition: background-color 0.1s;
 }
 
-.unitBtn:hover:not(.disabled) {
+#unitRow .unitBtn:hover:not(.disabled) {
     background: #454e5d;
     border-color: var(--ui-yellow);
 }
 
-.unitBtn:active:not(.disabled) {
+#unitRow .unitBtn:active:not(.disabled) {
     transform: translate(1px, 1px);
 }
 
-.unitBtn .thumb {
-    width: auto;
-    max-width: 64px;
-    height: 32px;
-    object-fit: contain;
-}
-
-.unitBtn .icon {
-    font-size: 23px;
-}
-
-.unitBtn .uname {
-    max-width: 100%;
-    color: #e8e4d5;
-    font-family: monospace;
-    font-size: 10px;
-}
-
-.unitBtn .cost {
-    color: var(--ui-yellow);
-    font-family: monospace;
-    font-size: 12px;
-}
-
-.unitBtn.disabled {
+#unitRow .unitBtn.disabled {
     filter: grayscale(0.8) brightness(0.65);
     box-shadow: none;
 }
 
-.unitBtn .cd {
-    background: rgba(8, 10, 14, 0.72);
+/* 캐릭터 이미지 크기와 위치 통일 */
+#unitRow .unitBtn .thumb {
+    display: block;
+    flex: 0 0 36px;
+    width: 64px;
+    height: 36px;
+    max-width: 100%;
+    object-fit: contain;
 }
 
-/* 필살기 */
-#cannonBtn {
-    width: auto;
-    min-width: 0;
+/* 이미지가 없는 캐릭터의 아이콘 */
+#unitRow .unitBtn .icon {
+    display: flex;
+    flex: 0 0 36px;
+    align-items: center;
     justify-content: center;
-    gap: 7px;
+    width: 64px;
+    height: 36px;
+    font-size: 24px;
+}
+
+/* 이름과 가격 정렬 */
+#unitRow .unitBtn .uname {
+    display: block;
+    flex: 0 0 16px;
+    width: 100%;
+    height: 16px;
+    overflow: hidden;
+    color: var(--ui-text);
+    font-family: monospace;
+    font-size: 10px;
+    line-height: 16px;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#unitRow .unitBtn .cost {
+    display: block;
+    flex: 0 0 16px;
+    width: 100%;
+    height: 16px;
+    color: var(--ui-yellow);
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+}
+
+/* 재사용 대기 표시 */
+#unitRow .unitBtn .cd {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    background: rgba(8, 10, 14, 0.72);
+    pointer-events: none;
+}
+
+/* 필살기 버튼 */
+#cannonBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    gap: 8px;
+    min-width: 0;
     padding: 8px 5px;
     background: #303e64;
     color: #d8e7ff;
@@ -289,19 +347,15 @@ body {
     background: #405584;
 }
 
+#cannonBtn .ckey {
+    color: #aebfe0;
+    font-size: 10px;
+}
+
 #cannonBtn.ready {
     background: #526d9c;
     border-color: var(--ui-blue);
     animation: cannon-pulse 0.9s steps(2, end) infinite;
-}
-
-#cannonBtn .ckey {
-    font-size: 10px;
-    color: #aebfe0;
-}
-
-#cannonBar {
-    background: var(--ui-blue);
 }
 
 @keyframes cannon-pulse {
@@ -310,7 +364,7 @@ body {
     }
 }
 
-/* 키 안내 */
+/* 키보드 조작 안내 */
 #hint {
     margin-top: 10px;
     color: var(--ui-muted);
@@ -319,22 +373,30 @@ body {
     line-height: 1.8;
 }
 
-/* 타이틀 / 승패 / 일시정지 패널 */
+/* 시작 / 일시정지 / 결과 오버레이 */
 #overlay {
-    border-radius: 0;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    overflow: auto;
     background: rgba(8, 10, 14, 0.84);
+    border-radius: 0;
 }
 
 .panel {
-    width: min(400px, calc(100% - 24px));
-    max-width: none;
+    width: min(400px, 100%);
+    max-width: 100%;
     padding: 24px;
-    background: #252a33;
+    background: var(--ui-panel);
     color: var(--ui-text);
-    border: 3px solid #080a0e;
+    border: 3px solid var(--ui-border);
     border-top: 4px solid var(--ui-yellow);
     border-radius: 0;
-    box-shadow: 5px 5px 0 #080a0e;
+    box-shadow: 5px 5px 0 var(--ui-border);
 }
 
 .panel h1.title {
@@ -362,10 +424,19 @@ body {
 
 .panel .stats {
     color: #c3cad3;
+    line-height: 1.8;
 }
 
-/* 스테이지 버튼 */
+.panel .hint {
+    color: var(--ui-muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* 스테이지 선택 및 결과 버튼 */
 .stageBtn {
+    display: block;
+    width: 100%;
     margin: 8px 0;
     padding: 11px;
     background: #3b4554;
@@ -373,7 +444,9 @@ body {
     font-family: monospace;
     font-size: 13px;
     text-align: left;
-    box-shadow: 3px 3px 0 #080a0e;
+    border: 2px solid var(--ui-border);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--ui-border);
 }
 
 .stageBtn:hover {
@@ -382,36 +455,105 @@ body {
 
 .stageBtn:active {
     transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #080a0e;
+    box-shadow: 1px 1px 0 var(--ui-border);
 }
 
 .stageBtn.alt {
     background: #343943;
 }
 
-.panel .hint {
-    color: var(--ui-muted);
-}
-
 /* 로딩 바 */
 #loadBarWrap {
+    overflow: hidden;
+    background: #11151b;
     border: 2px solid var(--ui-border);
     border-radius: 0;
-    background: #11151b;
 }
 
 #loadBar {
     background: var(--ui-yellow);
 }
 
-/* 작은 화면에서는 HUD를 두 줄로 배치 */
+/* 전체 화면: 전장이 남는 높이를 활용 */
+#game:fullscreen {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    padding: 12px;
+    margin: 0;
+    overflow: hidden;
+    background: var(--ui-bg);
+}
+
+#game:fullscreen #topbar,
+#game:fullscreen #hud,
+#game:fullscreen #hint {
+    flex-shrink: 0;
+}
+
+#game:fullscreen #topbar {
+    margin-bottom: 0;
+}
+
+#game:fullscreen #fieldWrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    aspect-ratio: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--ui-border);
+    overflow: hidden;
+}
+
+#game:fullscreen #field {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+#game:fullscreen #hud {
+    margin-top: 0;
+}
+
+#game:fullscreen #overlay {
+    position: absolute;
+    inset: 0;
+}
+
+/* 작은 화면 */
 @media (max-width: 720px) {
     body {
         padding: 6px;
     }
 
+    #game {
+        width: 100%;
+    }
+
+    #topbar {
+        gap: 8px;
+    }
+
+    #topbar .btns {
+        gap: 5px;
+    }
+
+    .tbtn {
+        padding: 6px 7px;
+    }
+
     #hud {
         grid-template-columns: minmax(0, 1fr) 90px;
+        gap: 6px;
     }
 
     #moneyBox {
@@ -435,141 +577,40 @@ body {
         grid-row: 2;
     }
 
+    #hint {
+        font-size: 10px;
+    }
+}
+
+/* 화면 높이가 낮을 때 HUD 공간 절약 */
+@media (max-height: 650px) {
+    body {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
     #topbar {
-        flex-wrap: wrap;
-        gap: 8px;
+        min-height: 34px;
+        padding: 5px 8px;
     }
 
-    .tbtn {
-        padding: 6px 7px;
+    #hud {
+        margin-top: 7px;
+        padding: 5px;
     }
-}
 
-/* 전체 화면 모드에서도 HUD 비율 유지 */
-#game:fullscreen {
-    width: 100vw;
-    max-width: none;
-    height: 100vh;
-    padding: 12px;
-    background: var(--ui-bg);
-    display: flex;
-    flex-direction: column;
-}
+    #unitRow .unitBtn {
+        height: 92px;
+        min-height: 92px;
+    }
 
-#game:fullscreen #field {
-    width: 100%;
-}
+    #hint {
+        margin-top: 5px;
+        line-height: 1.4;
+    }
 
-#game:fullscreen #hud {
-    flex-shrink: 0;
-}
-
-
-/* 전투 화면을 최대한 크게 표시 */
-#game:fullscreen {
-    width: 100vw;
-    height: 100vh;
-    max-width: none;
-    box-sizing: border-box;
-    padding: 12px;
-    background: #171a20;
-
-    display: flex;
-    flex-direction: column;
-}
-
-/* 전장 영역이 남은 공간을 차지 */
-#game:fullscreen #fieldWrap {
-    flex: 1;
-    min-height: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-/* 게임 화면 비율 유지하며 확대 */
-#game:fullscreen #field {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-/* 상단과 하단 UI는 필요한 만큼만 공간 차지 */
-#game:fullscreen #topbar,
-#game:fullscreen #hud,
-#game:fullscreen #hint {
-    flex-shrink: 0;
-}
-
-
-/* 캐릭터 생성 버튼 간격 통일 */
-#unitRow {
-    display: flex;
-    align-items: stretch;
-    gap: 8px;
-    padding: 4px;
-    overflow-x: auto;
-}
-
-/* 모든 캐릭터 버튼 크기 통일 */
-#unitRow .unitBtn {
-    box-sizing: border-box;
-    flex: 0 0 82px;
-    width: 82px;
-    min-width: 82px;
-    height: 104px;
-    min-height: 104px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-
-    padding: 6px;
-    margin: 0;
-    border-radius: 0;
-}
-
-/* 캐릭터 이미지 영역 통일 */
-#unitRow .unitBtn .thumb {
-    width: 64px;
-    height: 36px;
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
-/* 이미지 대신 아이콘을 사용하는 경우 */
-#unitRow .unitBtn .icon {
-    width: 64px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-}
-
-/* 캐릭터 이름 영역 통일 */
-#unitRow .unitBtn .uname {
-    width: 100%;
-    height: 16px;
-    line-height: 16px;
-    overflow: hidden;
-    text-align: center;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    flex-shrink: 0;
-}
-
-/* 가격 표시 위치 통일 */
-#unitRow .unitBtn .cost {
-    height: 16px;
-    line-height: 16px;
-    text-align: center;
-    flex-shrink: 0;
+    #game:fullscreen {
+        padding: 6px;
+        gap: 5px;
+    }
 }
