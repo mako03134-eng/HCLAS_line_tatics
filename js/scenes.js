@@ -15,7 +15,7 @@ export function showTitle() {
   game.scene = 'title';
   const cleared = getCleared();
   showOverlay(`<div class="panel">
-    <h1 class="title">HCLAS: line tatics<span style="font-size:13px;color:#999">web prototype</span></h1>
+    <h1 class="title">HCLAS: line tatics<span style="font-size:13px;color:#999">line tower defense</span></h1>
     <p class="sub">상대 타워를 무너뜨려라</p>
     ${STAGES.map((s, i) =>
       `<button class="stageBtn" data-action="start:${i}">${s.name}${cleared.includes(i) ? ' ★' : ''}</button>`).join('')}
