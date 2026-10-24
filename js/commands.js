@@ -1,4 +1,3 @@
-// 플레이어 명령(출격/강화/대포) + 스폰/분노 — 입력·UI는 여기만 호출
 import { W, FIELD_W, PLAYER_BASE_X, ENEMY_BASE_X, WORLD_SCALE } from './config.js';
 import { game } from './state.js';
 import { CATS, ENEMY_TYPES, CANNON, WALLET } from './data/index.js';
@@ -41,46 +40,42 @@ export function fireCannon() {
   game.cannonCharge = 0; game.shake = 1;
   const b = game.playerBase;
   const tw = b.tower || {};
-  // 눈 위치(타워 기준)에서 시작 — eyeH 비율은 레이저와 동일하게 유지
   const eyeX = b.x + b.dir * 10;
   const eyeY = b.y - (tw.height || 110) * (tw.eyeH || .72);
-  game.fx.push({ t: 0, life: .9, draw(c) { // 두 눈에서 폭발적으로 뿜어지는 초강력 빔
+  game.fx.push({ t: 0, life: .9, draw(c) { 
     const p = this.t / this.life, fade = 1 - p;
     const ax = eyeX * WORLD_SCALE;
-    const flick = .8 + Math.random() * .5; // 굵기 흔들림 = 에너지 과부하 느낌
+    const flick = .8 + Math.random() * .5; 
     c.save();
     c.globalCompositeOperation = 'lighter';
     c.lineCap = 'round';
-    // 3겹 × 두 눈 = 레이저보다 한층 두껍고 밝은 규격
     for (const off of [-6, 6]) {
       const ay = eyeY + off;
-      c.globalAlpha = fade * .3; c.strokeStyle = '#ff1a1a'; c.lineWidth = 34 * flick; // 붉은 광륜
+      c.globalAlpha = fade * .3; c.strokeStyle = '#ff1a1a'; c.lineWidth = 34 * flick;
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(0, 300); c.stroke();
-      c.globalAlpha = fade * .85; c.strokeStyle = '#ff5b5b'; c.lineWidth = 16 * flick; // 밝은 빨강
+      c.globalAlpha = fade * .85; c.strokeStyle = '#ff5b5b'; c.lineWidth = 16 * flick;
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(0, 300); c.stroke();
-      c.globalAlpha = fade; c.strokeStyle = '#ffffff'; c.lineWidth = 5.5 * flick; // 흰 코어
+      c.globalAlpha = fade; c.strokeStyle = '#ffffff'; c.lineWidth = 5.5 * flick;
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(0, 300); c.stroke();
     }
-    // 눈 앞 대형 플래시
     const g = c.createRadialGradient(ax, eyeY, 0, ax, eyeY, 40);
     g.addColorStop(0, 'rgba(255,255,255,1)');
     g.addColorStop(.4, 'rgba(255,80,80,.9)');
     g.addColorStop(1, 'rgba(255,0,0,0)');
     c.globalAlpha = fade; c.fillStyle = g;
     c.beginPath(); c.arc(ax, eyeY, 40, 0, 7); c.fill();
-    // 빔이 지나가는 자리 잔광(지면 라인)
     c.globalAlpha = fade * .5; c.fillStyle = '#ffdddd';
     c.fillRect(0, 296, ax, 8);
     c.restore();
   }});
-  for (const e of game.enemies) { // 전 적 타격 + 강제 넉백 (기존 로직 그대로)
+  for (const e of game.enemies) {
     if (!e.alive) continue;
     e.takeDamage(CANNON.atk);
     if (e.alive) { e.dmgTaken = 0; e.state = 'kb'; e.kbT = .6; }
   }
 }
 
-export function rageSpawn() { // 적 성 HP 50% → 분노 증원
+export function rageSpawn() { //상대 타워 HP 50% → 분노 효과
   game.shake = .7;
   addText(FIELD_W / 2, 200, '적 성이 분노했다!', '#ff5b5b', 1.4, 18);
   for (const s of [{ type: 'snache', n: 2, gap: 1.5 }, { type: 'pigge', n: 1, gap: 2 }])

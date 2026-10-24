@@ -1,6 +1,3 @@
-/* ============ 적 명단 ============
-   추가/제거는 이 파일에서만. 키 = stages.js의 spawns에서 type으로 쓰는 이름.
-   reward: 처치 시 얻는 자금 */
 export const ENEMY_TYPES = {
   snache: {
     id: 'snache',

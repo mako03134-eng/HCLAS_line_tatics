@@ -1,10 +1,8 @@
-// 전투 판정: 타겟팅(1차원 사거리) + 광역 투사체
 import { WORLD_SCALE } from './config.js';
 import { game } from './state.js';
 import { addExplosion } from './effects.js';
 
 export function foesOf(side) {
-  // 해당 진영이 때릴 상대 목록(적 유닛 + 적 성)
   const list = (side === 'player' ? game.enemies : game.units).filter((a) => a.alive);
   const base = side === 'player' ? game.enemyBase : game.playerBase;
   if (base && base.alive) list.push(base);
@@ -12,7 +10,7 @@ export function foesOf(side) {
 }
 
 export function targetsInAttackRange(f) {
-  const sign = f.side === 'player' ? 1 : -1; // '앞쪽 거리' = (f.x - 적.x) * sign
+  const sign = f.side === 'player' ? 1 : -1; 
   const res = [];
   for (const c of foesOf(f.side)) {
     const ahead = (f.x - c.x) * sign;
@@ -20,12 +18,12 @@ export function targetsInAttackRange(f) {
       res.push({ c, ahead });
     }
   }
-  res.sort((a, b) => a.ahead - b.ahead); // 가장 가까운 적부터
+  res.sort((a, b) => a.ahead - b.ahead); // 가장 가까운 적부터 타겟팅
   return res.map((r) => r.c);
 }
 
 export function makeProjectile(f, target) {
-  // 광역 유닛용, 착탄 시점 판정
+  // 광역 유닛용
   return {
     x: f.x + f.dir * 16,
     y: f.y - 26,

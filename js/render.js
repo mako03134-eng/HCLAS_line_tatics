@@ -1,4 +1,3 @@
-// 렌더 오케스트레이션: 배경 → 성 → 유닛(y정렬) → 이펙트
 import { ctx, rr, drawHpBar } from './canvas.js';
 import { W, H, HORIZON, WORLD_SCALE } from './config.js';
 import { game } from './state.js';
@@ -20,7 +19,7 @@ function drawBackground() {
     ctx.arc(cx, cl.y, 14 * cl.s, 0, 7); ctx.arc(cx + 16 * cl.s, cl.y - 6 * cl.s, 11 * cl.s, 0, 7);
     ctx.arc(cx + 30 * cl.s, cl.y, 12 * cl.s, 0, 7); ctx.fill();
   }
-  ctx.fillStyle = '#b7dba5'; // 원경 언덕
+  ctx.fillStyle = '#b7dba5'; // 언덕
   for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.arc(90 + i * 220, HORIZON + 30, 62, 0, 7); ctx.fill(); }
   ctx.fillStyle = '#a3d193';
   for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.arc(40 + i * 180, HORIZON + 22, 36, 0, 7); ctx.fill(); }

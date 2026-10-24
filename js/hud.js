@@ -27,7 +27,7 @@ export function initHud() {
         b.className = 'unitBtn';
         b.title = `${cat.name} · ${cat.desc || ''}`;
 
-        const thumb = cat.img && getImage('cat/' + cat.id); // 선로딩 돼 있으면 썸네일
+        const thumb = cat.img && getImage('cat/' + cat.id);
         b.innerHTML = `
       ${thumb ? `<img class="thumb" src="${thumb.src}" alt="">` : `<span class="icon">${cat.icon || '🐱'}</span>`}
       <span class="uname">${cat.name}</span>

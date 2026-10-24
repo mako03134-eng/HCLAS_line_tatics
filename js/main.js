@@ -1,4 +1,3 @@
-// 진입점: 스프라이트 선로딩 → 모듈 조립 → 게임 루프
 import { game } from './state.js';
 import { CATS, ENEMY_TYPES, TOWER } from './data/index.js';
 import { assetSrc, preload } from './assets.js';
@@ -9,7 +8,6 @@ import { initBattle, showTitle, showOverlay } from './scenes.js';
 import { initInput } from './input.js';
 
 async function boot() {
-  // 1) 명단의 이미지 전부 선로딩 (실패해도 시작 — 임시 드로잉 폴백)
   const jobs = [
     ...CATS.filter(c => c.img).map(c => ({ key: 'cat/' + c.id, src: assetSrc('characters', c.img) })),
     ...CATS.filter(c => c.imgAtk).map(c => ({ key: 'cat/' + c.id + '_atk', src: assetSrc('characters', c.imgAtk) })),       // 공격 모션
@@ -26,10 +24,9 @@ async function boot() {
     document.getElementById('loadText').textContent = `${done} / ${total}`;
   });
 
-  // 2) 조립 후 시작
   initHud();
   initInput();
-  initBattle(0);   // 타이틀 뒤에 보일 배경
+  initBattle(0);   
   game.scene = 'title';
   showTitle();
   requestAnimationFrame(loop);

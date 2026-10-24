@@ -1,7 +1,6 @@
-// 캔버스 컨텍스트 공유 + 그리기 공용 유틸
 export const ctx = document.getElementById('field').getContext('2d');
 
-export function rr(x, y, w, h, r) { // 둥근 사각형 경로
+export function rr(x, y, w, h, r) {
   r = Math.min(r, w / 2, h / 2);
 
   ctx.beginPath();

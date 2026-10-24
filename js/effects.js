@@ -1,4 +1,3 @@
-// 이펙트 헬퍼 — 위치 규약: x는 월드좌표, y는 캔버스좌표
 import { WORLD_SCALE } from './config.js';
 import { game } from './state.js';
 
@@ -52,27 +51,22 @@ export function addExplosion(x, y, r) {
     addPoof(x + (Math.random() - .5) * r, y + (Math.random() - .5) * 20, i % 2 ? '#ffb84a' : '#ffe25b');
 }
 
-/* 두 눈에서 목표로 뿜어지는 이중 레이저 — 사진 그대로:
-   ① 두툼한 붉은 광륜 ② 밝은 빨강 ③ 새하얀 코어 3겹 + 가산 합성(lighter)으로 겹칠수록 더 밝게.
-   프레임마다 굵기가 흔들려서 살아있는 에너지 느낌. */
 export function addLaser(x1, y1, x2, y2) {
   game.fx.push({ t: 0, life: .28, draw(c) {
     const p = this.t / this.life, fade = 1 - p;
     const ax = x1 * WORLD_SCALE, bx = x2 * WORLD_SCALE;
-    const flick = .7 + Math.random() * .6; // 굵기 흔들림
+    const flick = .7 + Math.random() * .6; 
     c.save();
-    c.globalCompositeOperation = 'lighter'; // 겹치는 곳이 더 밝아짐 = 강렬함
-    c.lineCap = 'round';
-    for (const off of [-5, 5]) { // 두 눈(±5px) → 목표 한 점으로 수렴
+    c.globalCompositeOperation = 'lighter';
+    for (const off of [-5, 5]) { 
       const ay = y1 + off;
-      c.globalAlpha = fade * .25; c.strokeStyle = '#ff0000'; c.lineWidth = 20 * flick; // ① 붉은 광륜
+      c.globalAlpha = fade * .25; c.strokeStyle = '#ff0000'; c.lineWidth = 20 * flick; 
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(bx, y2); c.stroke();
-      c.globalAlpha = fade * .8; c.strokeStyle = '#ff3b3b'; c.lineWidth = 9 * flick;   // ② 밝은 빨강
+      c.globalAlpha = fade * .8; c.strokeStyle = '#ff3b3b'; c.lineWidth = 9 * flick;   
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(bx, y2); c.stroke();
-      c.globalAlpha = fade; c.strokeStyle = '#ffffff'; c.lineWidth = 3.2 * flick;      // ③ 새하얀 코어
+      c.globalAlpha = fade; c.strokeStyle = '#ffffff'; c.lineWidth = 3.2 * flick;    
       c.beginPath(); c.moveTo(ax, ay); c.lineTo(bx, y2); c.stroke();
     }
-    // 두 눈의 광원 플래시 (사진의 눈 발광 재현)
     for (const off of [-5, 5]) {
       const g = c.createRadialGradient(ax, y1 + off, 0, ax, y1 + off, 18);
       g.addColorStop(0, 'rgba(255,255,255,.95)');
@@ -81,7 +75,6 @@ export function addLaser(x1, y1, x2, y2) {
       c.globalAlpha = fade; c.fillStyle = g;
       c.beginPath(); c.arc(ax, y1 + off, 18, 0, 7); c.fill();
     }
-    // 착탄 폭발: 흰 코어 + 붉은 번짐
     const g2 = c.createRadialGradient(bx, y2, 0, bx, y2, 26);
     g2.addColorStop(0, 'rgba(255,255,255,1)');
     g2.addColorStop(.45, 'rgba(255,80,60,.9)');
@@ -90,6 +83,6 @@ export function addLaser(x1, y1, x2, y2) {
     c.beginPath(); c.arc(bx, y2, 26, 0, 7); c.fill();
     c.restore();
   }});
-  for (let i = 0; i < 5; i++) // 붉은·흰 스파크
+  for (let i = 0; i < 5; i++)
     addPoof(x2 + (Math.random() - .5) * 10, y2 + 14, i % 2 ? '#ff5b5b' : '#ffffff');
        }

@@ -1,4 +1,3 @@
-// 입력 배선: 키보드 + 상단바/오버레이 버튼 → 명령·씬 호출만 함
 import { CATS } from './data/index.js';
 import { game } from './state.js';
 import { deployCat, upgradeWallet, fireCannon } from './commands.js';
@@ -20,7 +19,7 @@ export function initInput() {
   document.getElementById('speedBtn').addEventListener('click', toggleSpeed);
   document.getElementById('pauseBtn').addEventListener('click', () => togglePause());
 
-  document.getElementById('overlay').addEventListener('click', e => { // 오버레이 버튼 위임
+  document.getElementById('overlay').addEventListener('click', e => { 
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
     const [act, arg] = btn.dataset.action.split(':');

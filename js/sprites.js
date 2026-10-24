@@ -17,18 +17,18 @@ export function drawFighter(f) {
     let curKey = key;
     let sprite = f.def.img ? getImage(key) : null;
     if (f.attackT > 0 && f.def.imgAtk && getImage(key + '_atk')) {
-        curKey = key + '_atk';           // 공격 모션이 로드돼 있을 때만 스왑
+        curKey = key + '_atk';           
         sprite = getImage(curKey);
         }
 
     if (sprite && f.hitT > 0) {
-        sprite = getWhiteImage(key) || sprite; // 피격 → 흰 실루엣
+        sprite = getWhiteImage(key) || sprite; 
     }
 
     ctx.save();
     ctx.translate(sx, sy);
 
-    ctx.fillStyle = 'rgba(0,0,0,.12)'; // 그림자(아트와 무관, 항상 그림)
+    ctx.fillStyle = 'rgba(0,0,0,.12)'; // 그림자
     ctx.beginPath();
     ctx.ellipse(0, 3, 13 * size, 4, 0, 0, 7);
     ctx.fill();
@@ -43,19 +43,19 @@ export function drawFighter(f) {
             0,
             -Math.abs(Math.sin(f.walkPhase)) * 2.5 * size
         );
-    } // 걷기 바운스
+    } // 걷기 모션
 
     if (f.state === 'windup') {
         ctx.translate(-3 * size * f.dir, 0);
-    } // 움찔(전딜)
+    } 
 
     if (f.attackT > 0) {
         ctx.translate(6 * size * f.dir, 0);
-    } // 런지(타격)
+    } 
 
     if (f.state === 'kb') {
         ctx.rotate(-f.dir * (0.55 - f.kbT) * 10);
-    } // 넉백 구르기
+    } // 넉백 
 
     if (sprite) {
         const sh = sprite.naturalHeight || sprite.height;
@@ -64,9 +64,8 @@ export function drawFighter(f) {
         let s = (IMG_H * size) / sh;
 
         if (f.def.pixel) {
-            // 픽셀아트 플래그
-            s = Math.max(0.1, Math.round(s)); // 정수배 스냅 (3.4배 → 3배) : 픽셀 뭉개짐 방지
-            ctx.imageSmoothingEnabled = false; // 보간 끄기 = 칼같은 픽셀
+            s = Math.max(0.1, Math.round(s));
+            ctx.imageSmoothingEnabled = false;
         }
 
         ctx.scale(
@@ -78,7 +77,7 @@ export function drawFighter(f) {
             sprite,
             -sw / 2,
             -sh
-        ); // 발 = 이미지 하단 중앙
+        );
     } else {
         const C = c => (f.hitT > 0 ? '#ffffff' : c);
 
@@ -107,7 +106,7 @@ export function drawFighter(f) {
     }
 }
 
-// ---------- 이하: 이미지 없는 캐릭터용 임시 드로잉 (폴백) ----------
+// ---------- 이하: 이미지 없는 캐릭터용 ----------
 
 function drawCat(f, C) {
     const d = f.def;
