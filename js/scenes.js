@@ -1,4 +1,3 @@
-// 씬 전환: 타이틀/결과/일시정지 오버레이 + 배틀 초기화
 import { game } from './state.js';
 import { STAGES, TOWER } from './data/index.js';
 import { Base } from './entities.js';
@@ -16,8 +15,8 @@ export function showTitle() {
   game.scene = 'title';
   const cleared = getCleared();
   showOverlay(`<div class="panel">
-    <h1 class="title">냥코 대전쟁 <span style="font-size:13px;color:#999">web prototype</span></h1>
-    <p class="sub">적의 성을 무너뜨려라</p>
+    <h1 class="title">HCLAS: line tatics<span style="font-size:13px;color:#999">web prototype</span></h1>
+    <p class="sub">상대 타워를 무너뜨려라</p>
     ${STAGES.map((s, i) =>
       `<button class="stageBtn" data-action="start:${i}">${s.name}${cleared.includes(i) ? ' ★' : ''}</button>`).join('')}
     <p class="hint">숫자키 1~9: 캐릭터 생성 · Q: 지갑 강화 · C: 빔 · S: 배속 · P: 일시정지</p>
