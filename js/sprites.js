@@ -11,7 +11,7 @@ const IMG_H = 48; // 스프라이트 기준 키(px) — 실제 화면 키 = IMG_
 export function drawFighter(f) {
     const size = f.def.size || 1;
     const sx = f.x * WORLD_SCALE;
-    const sy = f.y;
+    const sy = f.y + (f.def.offsetY || 0);
     const key = (f.side === 'player' ? 'cat/' : 'enemy/') + f.def.id;
 
     let curKey = key;
@@ -65,7 +65,7 @@ export function drawFighter(f) {
 
         if (f.def.pixel) {
             // 픽셀아트 플래그
-            s = Math.max(0.1, s); // 정수배 스냅 (3.4배 → 3배) : 픽셀 뭉개짐 방지
+            s = Math.max(0.1, Math.round(s)); // 정수배 스냅 (3.4배 → 3배) : 픽셀 뭉개짐 방지
             ctx.imageSmoothingEnabled = false; // 보간 끄기 = 칼같은 픽셀
         }
 

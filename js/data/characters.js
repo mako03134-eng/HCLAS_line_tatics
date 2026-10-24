@@ -1,10 +1,4 @@
-/* ============ 고양이 명단 ============
-   추가: ① assets/cats/ 에 이미지  ② 아래에 한 줄  ③ 새로고침(F5)
-   제거: 해당 줄 삭제
-   - img 생략/파일 없음 → 임시 캔버스 드로잉으로 표시(아트 없이 밸런스 테스트 가능)
-   - 버튼·단축키·스폰이 전부 이 배열 기준으로 자동 생성됨
-
-   필수: id, name, cost, cd, hp, atk, range, windup, backswing, speed, kb
+/* 필수: id, name, cost, cd, hp, atk, range, windup, backswing, speed, kb
    선택: img(이미지 파일명), size(기본 1, 화면 키=48×size), color(사망 파티클),
          icon(버튼 임시 이모지), desc, aoe(광역 공격 반경)
 */
@@ -16,7 +10,7 @@ export const CATS = [
     name: '여람이',
     cost: 50,
     cd: 2,
-    hp: 40,
+    hp: 20,
     atk: 23,
     range: 40,
     windup: 0.35,
@@ -34,7 +28,7 @@ export const CATS = [
     name: '예준이',
     cost: 70,
     cd: 4,
-    hp: 300,
+    hp: 280,
     atk: 7,
     range: 20,
     windup: 0.7,
@@ -54,7 +48,7 @@ export const CATS = [
     name: '예승이',
     cost: 100,
     cd: 6,
-    hp: 200,
+    hp: 180,
     atk: 5,
     range: 100,
     windup: 0.6,
@@ -64,6 +58,7 @@ export const CATS = [
     size: 0.45,
     color: '#884f12',
     desc: '리치 긴 병신',
+    offsetY: 8,
   },
   {
     id: 'jiwoo',
@@ -72,7 +67,7 @@ export const CATS = [
     name: '지우',
     cost: 200,
     cd: 3,
-    hp: 220,
+    hp: 200,
     atk: 30,
     range: 25,
     windup: 0.2,
@@ -90,7 +85,7 @@ export const CATS = [
     name: '지훈이',
     cost: 170,
     cd: 8,
-    hp: 150,
+    hp: 130,
     atk: 40,
     range: 170,
     windup: 0.7,

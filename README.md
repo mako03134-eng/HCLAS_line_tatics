@@ -1,7 +1,7 @@
 #예준이대전쟁
 
 캐릭터 추가/수정 — js/data/characters.js
-{ id:'basic', img:'basic.png', pixel:true, icon:'🐱', name:'기본 고양이',  cost:50, cd:2, hp:120, atk:15, range:35, windup:.35, backswing:.65,  speed:60, kb:3, size:1.0, color:'#f5f2ea', desc:'설명' },
+{ id:'basic', img:'basic.png', pixel:true, icon:'🐱', name:'캐릭터 이름',  cost:50, cd:2, hp:120, atk:15, range:35, windup:.35, backswing:.65,  speed:60, kb:3, size:1.0, color:'#f5f2ea', desc:'설명' },
 필드	바뀌는 것	단위/기준
 id	내부 식별자·쿨다운 키	중복 불가
 img	assets/cats/의 파일명	없으면 임시 드로잉으로 표시
