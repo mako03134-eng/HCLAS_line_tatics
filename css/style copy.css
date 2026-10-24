@@ -1,0 +1,827 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #191b22;
+    min-height: 100vh;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+}
+
+#game {
+    width: 960px;
+    max-width: 100%;
+    position: relative;
+}
+
+#topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px 8px;
+    color: #e8e8f0;
+}
+
+#stageName {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+#topbar .btns {
+    display: flex;
+    gap: 6px;
+}
+
+.tbtn {
+    background: #343949;
+    color: #e8e8f0;
+    border: 2px solid #14151c;
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.tbtn:hover {
+    background: #454b60;
+}
+
+#field {
+    width: 100%;
+    display: block;
+    border: 3px solid #14151c;
+    border-radius: 12px;
+}
+
+#hud {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    background: #23242f;
+    border: 3px solid #14151c;
+    border-radius: 12px;
+    padding: 8px;
+}
+
+#moneyBox {
+    width: 175px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+}
+
+#moneyLabel {
+    color: #ffd54a;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+#moneyLabel .rate {
+    font-size: 10px;
+    color: #b7a55e;
+    font-weight: 600;
+}
+
+#moneyBarWrap {
+    height: 10px;
+    background: #14151c;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#moneyBar {
+    height: 100%;
+    width: 0;
+    background: #ffd54a;
+}
+
+#walletBtn {
+    background: #4d9e5f;
+    color: #fff;
+    border: 2px solid #14151c;
+    border-radius: 8px;
+    padding: 5px 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#walletBtn:hover:not(:disabled) {
+    background: #5cb56e;
+}
+
+#walletBtn:disabled {
+    background: #3a5f45;
+    color: #9ab3a1;
+    cursor: default;
+}
+
+#unitRow {
+    flex: 1;
+    display: flex;
+    gap: 6px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding-bottom: 2px;
+}
+
+.unitBtn {
+    position: relative;
+    flex: 0 0 80px;
+    min-width: 80px;
+    overflow: hidden;
+    background: #f6f1e3;
+    border: 3px solid #14151c;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 7px 2px 5px;
+    cursor: pointer;
+    transition: transform 0.05s;
+}
+
+.unitBtn:hover:not(.disabled) {
+    background: #fffbe9;
+}
+
+.unitBtn:active:not(.disabled) {
+    transform: scale(0.93);
+}
+
+.unitBtn .icon {
+    font-size: 21px;
+    line-height: 1.1;
+}
+
+.unitBtn .thumb {
+    height: 24px;
+    max-width: 66px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.unitBtn .uname {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.unitBtn .cost {
+    font-size: 11px;
+    font-weight: 800;
+    color: #b07a1e;
+}
+
+.unitBtn .cd {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    background: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+}
+
+.unitBtn.disabled {
+    filter: grayscale(0.8) brightness(0.85);
+    cursor: default;
+}
+
+#cannonBtn {
+    position: relative;
+    width: 105px;
+    flex-shrink: 0;
+    background: #39418f;
+    color: #fff;
+    border: 3px solid #14151c;
+    border-radius: 10px;
+    padding: 6px 4px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+#cannonBtn .ckey {
+    font-size: 10px;
+    opacity: 0.7;
+    font-weight: 600;
+}
+
+#cannonBtn.ready {
+    background: #5a67d8;
+    animation: pulse 0.7s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+#cannonBarWrap {
+    width: 100%;
+    height: 8px;
+    background: #14151c;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#cannonBar {
+    height: 100%;
+    width: 0;
+    background: #8fb7ff;
+}
+
+#hint {
+    text-align: center;
+    color: #6a6d80;
+    font-size: 11.5px;
+    margin-top: 8px;
+}
+
+#overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(12, 13, 19, 0.7);
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.panel {
+    background: #fdf8ec;
+    border: 4px solid #14151c;
+    border-radius: 16px;
+    padding: 26px 32px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+.panel h1.title {
+    font-size: 30px;
+    color: #222;
+}
+
+.panel .sub {
+    color: #666;
+    font-size: 13px;
+    margin: 8px 0 16px;
+}
+
+.panel h2 {
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.panel h2.win {
+    color: #3d9e4f;
+}
+
+.panel h2.lose {
+    color: #d84343;
+}
+
+.panel .stats {
+    color: #555;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.stageBtn {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    background: #ffd54a;
+    border: 3px solid #14151c;
+    border-radius: 10px;
+    padding: 11px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #14151c;
+    color: #222;
+}
+
+.stageBtn:hover {
+    background: #ffe07a;
+}
+
+.stageBtn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #14151c;
+}
+
+.stageBtn.alt {
+    background: #d9d4c5;
+}
+
+.hint {
+    color: #888;
+    font-size: 11.5px;
+    margin-top: 14px;
+    line-height: 1.8;
+}
+
+#loadBarWrap {
+    width: 220px;
+    height: 12px;
+    background: #e6dcc6;
+    border: 2px solid #14151c;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 12px auto 4px;
+}
+
+#loadBar {
+    height: 100%;
+    width: 0;
+    background: #ffd54a;
+}
+/* Canvas를 담는 영역 */
+#fieldWrap {
+    width: 100%;
+}
+
+#field {
+    width: 100%;
+    display: block;
+}
+
+/* 전체 화면 모드 */
+#game:fullscreen {
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    padding: 12px;
+    background: #191b22;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* 상단 버튼과 안내 영역은 유지 */
+#game:fullscreen #topbar,
+#game:fullscreen #hud,
+#game:fullscreen #hint {
+    flex-shrink: 0;
+}
+
+/* Canvas가 남은 공간을 활용하도록 설정 */
+#game:fullscreen #fieldWrap {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game:fullscreen #field {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 전체 화면에서 오버레이도 화면에 맞게 표시 */
+#game:fullscreen #overlay {
+    border-radius: 0;
+}
+
+:root {
+    --ui-bg: #171a20;
+    --ui-panel: #252a33;
+    --ui-panel-dark: #101319;
+    --ui-border: #080a0e;
+    --ui-line: #414958;
+    --ui-text: #e8e4d5;
+    --ui-muted: #969eaa;
+    --ui-yellow: #f5ca57;
+    --ui-green: #79c66c;
+    --ui-blue: #83b8f0;
+    --ui-red: #e66b61;
+}
+
+/* 전체 화면 */
+body {
+    background: var(--ui-bg);
+    color: var(--ui-text);
+    padding: 18px;
+    font-family: "Malgun Gothic", monospace, sans-serif;
+}
+
+#game {
+    width: 1100px;
+    max-width: 100%;
+}
+
+/* 상단 상태 표시줄 */
+#topbar {
+    min-height: 42px;
+    padding: 8px 10px;
+    margin-bottom: 7px;
+    background: var(--ui-panel);
+    border: 2px solid var(--ui-border);
+    border-left: 4px solid var(--ui-yellow);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #080a0e;
+}
+
+#stageName {
+    color: var(--ui-yellow);
+    font-family: monospace;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+#topbar .btns {
+    gap: 5px;
+}
+
+/* 공통 픽셀풍 버튼 */
+.tbtn,
+#walletBtn,
+#cannonBtn,
+.stageBtn {
+    border: 2px solid var(--ui-border);
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #080a0e;
+    transition: background-color 0.1s;
+}
+
+.tbtn {
+    padding: 6px 10px;
+    background: #343c49;
+    color: var(--ui-text);
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.tbtn:hover {
+    background: #4a5668;
+}
+
+.tbtn:active,
+#walletBtn:active,
+#cannonBtn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #080a0e;
+}
+
+/* 전장 프레임 */
+#field {
+    border: 3px solid var(--ui-border);
+    border-radius: 0;
+    background: #242a32;
+    box-shadow: 3px 3px 0 #080a0e;
+}
+
+/* 하단 HUD 전체 */
+#hud {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr) 112px;
+    align-items: stretch;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 7px;
+    background: #11151b;
+    border: 2px solid var(--ui-border);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #080a0e;
+}
+
+/* 자원 패널 */
+#moneyBox {
+    width: auto;
+    min-width: 0;
+    padding: 8px;
+    gap: 8px;
+    background: var(--ui-panel);
+    border: 1px solid var(--ui-line);
+    border-radius: 0;
+}
+
+#moneyLabel {
+    color: var(--ui-yellow);
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+#moneyLabel .rate {
+    display: block;
+    margin-top: 2px;
+    color: var(--ui-green);
+    font-size: 11px;
+}
+
+#moneyBarWrap,
+#cannonBarWrap {
+    height: 9px;
+    border: 1px solid var(--ui-border);
+    border-radius: 0;
+    background: #0c0f14;
+}
+
+#moneyBar {
+    background: var(--ui-yellow);
+    transition: width 0.12s linear;
+}
+
+#walletBtn {
+    padding: 7px 4px;
+    background: #384b39;
+    color: #c8f2bd;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+#walletBtn:hover:not(:disabled) {
+    background: #49694a;
+}
+
+#walletBtn:disabled {
+    background: #292e31;
+    color: #737c7c;
+    box-shadow: none;
+}
+
+/* 유닛 선택 영역 */
+#unitRow {
+    min-width: 0;
+    gap: 5px;
+    padding: 2px 2px 5px;
+    align-items: stretch;
+    scrollbar-color: #596272 #151920;
+    scrollbar-width: thin;
+}
+
+.unitBtn {
+    flex: 0 0 76px;
+    min-width: 76px;
+    min-height: 96px;
+    padding: 6px 3px;
+    gap: 4px;
+    justify-content: center;
+    background: #303640;
+    border: 2px solid #080a0e;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #080a0e;
+    transition: background-color 0.1s;
+}
+
+.unitBtn:hover:not(.disabled) {
+    background: #454e5d;
+    border-color: var(--ui-yellow);
+}
+
+.unitBtn:active:not(.disabled) {
+    transform: translate(1px, 1px);
+}
+
+.unitBtn .thumb {
+    width: auto;
+    max-width: 64px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.unitBtn .icon {
+    font-size: 23px;
+}
+
+.unitBtn .uname {
+    max-width: 100%;
+    color: #e8e4d5;
+    font-family: monospace;
+    font-size: 10px;
+}
+
+.unitBtn .cost {
+    color: var(--ui-yellow);
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.unitBtn.disabled {
+    filter: grayscale(0.8) brightness(0.65);
+    box-shadow: none;
+}
+
+.unitBtn .cd {
+    background: rgba(8, 10, 14, 0.72);
+}
+
+/* 필살기 */
+#cannonBtn {
+    width: auto;
+    min-width: 0;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 5px;
+    background: #303e64;
+    color: #d8e7ff;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+#cannonBtn:hover {
+    background: #405584;
+}
+
+#cannonBtn.ready {
+    background: #526d9c;
+    border-color: var(--ui-blue);
+    animation: cannon-pulse 0.9s steps(2, end) infinite;
+}
+
+#cannonBtn .ckey {
+    font-size: 10px;
+    color: #aebfe0;
+}
+
+#cannonBar {
+    background: var(--ui-blue);
+}
+
+@keyframes cannon-pulse {
+    50% {
+        border-color: #e4edff;
+    }
+}
+
+/* 키 안내 */
+#hint {
+    margin-top: 10px;
+    color: var(--ui-muted);
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* 타이틀 / 승패 / 일시정지 패널 */
+#overlay {
+    border-radius: 0;
+    background: rgba(8, 10, 14, 0.84);
+}
+
+.panel {
+    width: min(400px, calc(100% - 24px));
+    max-width: none;
+    padding: 24px;
+    background: #252a33;
+    color: var(--ui-text);
+    border: 3px solid #080a0e;
+    border-top: 4px solid var(--ui-yellow);
+    border-radius: 0;
+    box-shadow: 5px 5px 0 #080a0e;
+}
+
+.panel h1.title {
+    color: var(--ui-yellow);
+    font-family: monospace;
+    font-size: 25px;
+}
+
+.panel .sub {
+    margin: 10px 0 16px;
+    color: #b9c0ca;
+}
+
+.panel h2 {
+    color: var(--ui-text);
+}
+
+.panel h2.win {
+    color: var(--ui-green);
+}
+
+.panel h2.lose {
+    color: var(--ui-red);
+}
+
+.panel .stats {
+    color: #c3cad3;
+}
+
+/* 스테이지 버튼 */
+.stageBtn {
+    margin: 8px 0;
+    padding: 11px;
+    background: #3b4554;
+    color: var(--ui-text);
+    font-family: monospace;
+    font-size: 13px;
+    text-align: left;
+    box-shadow: 3px 3px 0 #080a0e;
+}
+
+.stageBtn:hover {
+    background: #4d5b6d;
+}
+
+.stageBtn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #080a0e;
+}
+
+.stageBtn.alt {
+    background: #343943;
+}
+
+.panel .hint {
+    color: var(--ui-muted);
+}
+
+/* 로딩 바 */
+#loadBarWrap {
+    border: 2px solid var(--ui-border);
+    border-radius: 0;
+    background: #11151b;
+}
+
+#loadBar {
+    background: var(--ui-yellow);
+}
+
+/* 작은 화면에서는 HUD를 두 줄로 배치 */
+@media (max-width: 720px) {
+    body {
+        padding: 6px;
+    }
+
+    #hud {
+        grid-template-columns: minmax(0, 1fr) 90px;
+    }
+
+    #moneyBox {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(90px, 1fr);
+        align-items: center;
+    }
+
+    #moneyLabel {
+        grid-row: span 2;
+    }
+
+    #unitRow {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #cannonBtn {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    #topbar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .tbtn {
+        padding: 6px 7px;
+    }
+}
+
+/* 전체 화면 모드에서도 HUD 비율 유지 */
+#game:fullscreen {
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    padding: 12px;
+    background: var(--ui-bg);
+    display: flex;
+    flex-direction: column;
+}
+
+#game:fullscreen #field {
+    width: 100%;
+}
+
+#game:fullscreen #hud {
+    flex-shrink: 0;
+}
