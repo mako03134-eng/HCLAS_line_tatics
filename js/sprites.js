@@ -1,12 +1,9 @@
-// 캐릭터 렌더링 — def.img가 있고 로드됐으면 스프라이트, 아니면 캔버스 폴백
-// 외부 인터페이스는 drawFighter(f) 하나 (아트 교체 시 이 파일만 손대면 됨)
-
 import { ctx, rr, drawHpBar } from './canvas.js';
 import { WORLD_SCALE } from './config.js';
 import { game } from './state.js';
 import { getImage, getWhiteImage } from './assets.js';
 
-const IMG_H = 48; // 스프라이트 기준 키(px) — 실제 화면 키 = IMG_H × def.size
+const IMG_H = 48; 
 
 export function drawFighter(f) {
     const size = f.def.size || 1;
@@ -36,14 +33,14 @@ export function drawFighter(f) {
     if (f.spawnT > 0) {
         const p = 1 - f.spawnT / 0.35;
         ctx.scale(0.35 + 0.65 * p, 0.35 + 0.65 * p);
-    } // 등장 팝
+    } 
 
     if (f.moving) {
         ctx.translate(
             0,
             -Math.abs(Math.sin(f.walkPhase)) * 2.5 * size
         );
-    } // 걷기 모션
+    } 
 
     if (f.state === 'windup') {
         ctx.translate(-3 * size * f.dir, 0);
